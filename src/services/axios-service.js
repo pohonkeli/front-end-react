@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default axios.create({
-  baseURL: 'https://www.mockachino.com/aec739cd-842b-4d',
+  baseURL: 'http://localhost:5004',
   headers: {
     'Content-type': 'application/json',
   },

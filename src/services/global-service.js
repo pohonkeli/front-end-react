@@ -1,8 +1,8 @@
 import http from './axios-service'
 
 class GlobalService {
-  getAll() {
-    return http.get('/articlenih')
+  getAllDataByStatus(status) {
+    return http.get(`/article/?status=${status}`)
   }
 
   get(id) {
@@ -10,7 +10,7 @@ class GlobalService {
   }
 
   create(data) {
-    return http.post('/article', data)
+    return http.post('/article/', data)
   }
 
   update(id, data) {
