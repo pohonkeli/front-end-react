@@ -1,45 +1,80 @@
-import React from 'react'
+import React, { Component } from 'react'
+import globalService from 'src/services/global-service'
 import {
-  CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableBody,
-  CTableDataCell,
+  CButton,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CForm,
+  CFormInput,
+  CFormLabel,
+  CFormTextarea,
+  CRow,
 } from '@coreui/react'
 
-const AddNew = () => {
-  return (
-    <CTable>
-      <CTableHead>
-        <CTableRow>
-          <CTableHeaderCell scope="col">#</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Class</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Heading</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Heading</CTableHeaderCell>
-        </CTableRow>
-      </CTableHead>
-      <CTableBody>
-        <CTableRow>
-          <CTableHeaderCell scope="row">1</CTableHeaderCell>
-          <CTableDataCell>Mark</CTableDataCell>
-          <CTableDataCell>Otto</CTableDataCell>
-          <CTableDataCell>@mdo</CTableDataCell>
-        </CTableRow>
-        <CTableRow>
-          <CTableHeaderCell scope="row">2</CTableHeaderCell>
-          <CTableDataCell>Jacob</CTableDataCell>
-          <CTableDataCell>Thornton</CTableDataCell>
-          <CTableDataCell>@fat</CTableDataCell>
-        </CTableRow>
-        <CTableRow>
-          <CTableHeaderCell scope="row">3</CTableHeaderCell>
-          <CTableDataCell colSpan="2">Larry the Bird</CTableDataCell>
-          <CTableDataCell>@twitter</CTableDataCell>
-        </CTableRow>
-      </CTableBody>
-    </CTable>
-  )
-}
+export default class AddNew extends Component {
+  constructor(props) {
+    super(props)
+    this.onChangeTitle = this.onChangeTitle.bind(this)
+    this.onChangeContent = this.onChangeContent.bind(this)
+    this.saveTutorial = this.saveTutorial.bind(this)
 
-export default AddNew
+    this.state = {
+      title: '',
+      content: '',
+    }
+  }
+
+  onChangeTitle(e) {
+    this.setState({
+      title: e.target.value,
+    })
+  }
+
+  onChangeContent(e) {
+    this.setState({
+      content: e.target.value,
+    })
+  }
+
+  saveTutorial() {
+    var data = {
+      title: this.state.title,
+      content: this.state.content,
+    }
+
+    globalService
+      .create(data)
+      .then((response) => {
+        if (response.data.code === 200) {
+          alert('data berhasil disimpan')
+        }
+        console.log(response.data)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+    console.log(data)
+  }
+
+  render() {
+    return (
+      <CForm>
+        <div className="mb-3">
+          <CFormLabel htmlFor="title">Title</CFormLabel>
+          <CFormInput type="text" id="title" onChange={this.onChangeTitle} />
+        </div>
+        <div className="mb-3">
+          <CFormLabel htmlFor="content">Content</CFormLabel>
+          <CFormTextarea id="content" rows="5" onChange={this.onChangeContent} />
+        </div>
+        <div className="col-auto">
+          <CButton type="submit" className="mb-3" onClick={this.saveTutorial}>
+            Submit
+          </CButton>
+        </div>
+      </CForm>
+    )
+  }
+}
